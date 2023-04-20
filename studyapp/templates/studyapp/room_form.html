@@ -1,7 +1,10 @@
 {%extends 'main.html'%} {%block content%}
 <div>
   <form action="" method="POST">
-    {%csrf_token%} {{form.as_p}}
+    <!-- csrf_token makes sure there is no malicious attempts -->
+    {%csrf_token%}
+    <!-- form, this name must be consistent with context = {"form": form} -->
+    {{form.as_p}}
     <input type="submit" value="submit" />
   </form>
 </div>
