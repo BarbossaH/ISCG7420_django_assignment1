@@ -26,6 +26,10 @@ class Room(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
+    # the newest post will be at the top, using updated first, if the updated is same, then using created
+    class Meta:
+        ordering = ["-updated", "-created"]
+
     def __str__(self):
         return str(self.name)
 

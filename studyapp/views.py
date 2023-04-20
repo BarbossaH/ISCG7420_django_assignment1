@@ -1,8 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from .models import Room
 
-# Create your views here.
+from .forms import RoomForm
+
+# Create your views here. it seems router file
 # this file is for our webpage function, but it must let urls in system knows this file's existence
 from django.http import HttpResponse
 
@@ -21,3 +23,16 @@ def room(request, pk):
     room = Room.objects.get(id=pk)
     context = {"room": room}
     return render(request, "studyapp/room.html", context)
+
+
+def createRoom(request):
+    form = RoomForm()
+    if request.method == "POST":
+        # print(request.POST)
+        form = RoomForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("home")
+
+    context = {"form": form}
+    return render(request, "studyapp/room_form.html", context)
