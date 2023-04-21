@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from .models import Room, Topic
+from .models import GradeBookClass, GradeBooKCourse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
@@ -65,19 +65,19 @@ def home(request):
     # modelName.objects = model object attribute; modelName.objects = Method() such as get(), filter()
     q = request.GET.get("q") if request.GET.get("q") != None else ""
     # print(q)
-    rooms = Room.objects.filter(
+    rooms = GradeBookClass.objects.filter(
         Q(topic__name__contains=q) | Q(name__icontains=q) | Q(description__icontains=q)
     )
-    topics = Topic.objects.all()
+    topics = GradeBooKCourse.objects.all()
     room_count = rooms.count()
     context = {"rooms": rooms, "topics": topics, "room_count": room_count}
-    # send the Room object as a parameter to home.html
+    # send the GradeBookClass object as a parameter to home.html
     return render(request, "studyapp/home.html", context)
 
 
 def room(request, pk):
     # using the pk as the id to access to the corresponding room
-    room = Room.objects.get(id=pk)
+    room = GradeBookClass.objects.get(id=pk)
     context = {"room": room}
     return render(request, "studyapp/room.html", context)
 
@@ -99,7 +99,7 @@ def createRoom(request):
 @login_required(login_url="login")
 def updateRoom(request, pk):
     # print(request.method)
-    room = Room.objects.get(id=pk)
+    room = GradeBookClass.objects.get(id=pk)
     # initialize the form with data from the room
     form = RoomForm(instance=room)
 
@@ -117,7 +117,7 @@ def updateRoom(request, pk):
 
 @login_required(login_url="login")
 def deleteRoom(request, pk):
-    room = Room.objects.get(id=pk)
+    room = GradeBookClass.objects.get(id=pk)
     if request.user != room.host:
         return HttpResponse("You are not the host.")
     if request.method == "POST":

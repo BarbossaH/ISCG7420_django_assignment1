@@ -12,10 +12,10 @@ from django.contrib.auth.models import User
 #     id = models.UUIDField()
 
 
-class Room(models.Model):
+class GradeBookClass(models.Model):
     host = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     # if topic is deleted, the room should be kept, so topic also can be empty, that's why we must setup null=true
-    topic = models.ForeignKey("Topic", on_delete=models.SET_NULL, null=True)
+    topic = models.ForeignKey("GradeBooKCourse", on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=200)
     # default value is false, which means cannot have a blank.
     # blank = true means when adding a form, it can be blank
@@ -34,7 +34,7 @@ class Room(models.Model):
         return str(self.name)
 
 
-class Message(models.Model):
+class Student(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     # one to many, CASCADE= when parent deleted, children will be deleted simultaneously
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
@@ -46,7 +46,7 @@ class Message(models.Model):
         return self.body[0:50]
 
 
-class Topic(models.Model):
+class GradeBooKCourse(models.Model):
     name = models.CharField(max_length=200)
 
     def __str__(self):
