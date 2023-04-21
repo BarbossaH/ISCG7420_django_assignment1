@@ -12,10 +12,10 @@ from django.contrib.auth.models import User
 #     id = models.UUIDField()
 
 
-class GradeBookClass(models.Model):
+class Room(models.Model):
     host = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     # if topic is deleted, the room should be kept, so topic also can be empty, that's why we must setup null=true
-    topic = models.ForeignKey("GradeBooKCourse", on_delete=models.SET_NULL, null=True)
+    topic = models.ForeignKey("Topic", on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=200)
     # default value is false, which means cannot have a blank.
     # blank = true means when adding a form, it can be blank
@@ -26,7 +26,7 @@ class GradeBookClass(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
-    # the newest post will be at the top, using updated first, if the updated is same, then using created
+    # the newest post will be at the top, using updated first, if the updated is same,
     class Meta:
         ordering = ["-updated", "-created"]
 
@@ -46,7 +46,7 @@ class Student(models.Model):
         return self.body[0:50]
 
 
-class GradeBooKCourse(models.Model):
+class Topic(models.Model):
     name = models.CharField(max_length=200)
 
     def __str__(self):
