@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 #     id = models.UUIDField()
 
 
-class Room(models.Model):
+class GradeBookClass(models.Model):
     host = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     # if topic is deleted, the room should be kept, so topic also can be empty, that's why we must setup null=true
     topic = models.ForeignKey("Topic", on_delete=models.SET_NULL, null=True)
